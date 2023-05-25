@@ -4,7 +4,15 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const deps = require('./package.json').dependencies;
 
 module.exports = {
+	entry: './src/index',
 	mode: 'development',
+	devServer: {
+		static: {
+			directory: path.join(__dirname, 'public'),
+		},
+		port: 8087,
+	},
+	target: 'web',
 	resolve: {
 		extensions: ['.css', '.scss', '.js', '.jsx'],
 	},
@@ -42,9 +50,10 @@ module.exports = {
 			template: path.resolve(__dirname, 'public', 'index.html'),
 		}),
 		new ModuleFederationPlugin({
-			name: 'MICRO',
-			remotes: {
-				FIRST_APP: 'FIRST_APP@http://localhost:8080/remoteEntry.js',
+			name: 'TEAM_TWO',
+			filename: 'moduleEntry.js',
+			exposes: {
+				'./app': './src/App',
 			},
 		}),
 	],
